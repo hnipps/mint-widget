@@ -1,0 +1,77 @@
+.react-mint-button {
+  justify-content: center;
+  min-width: 240px;
+}
+
+.connect-button {
+  margin-right: 1rem;
+}
+
+.mint-button {
+}
+
+.account-indicator {
+  color: white;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.message {
+  max-width: 500px;
+  word-wrap: break-word;
+}
+
+.error {
+  color: white;
+  text-align: center;
+  margin-top: 1rem;
+  background: rgba(200, 0, 0, 0.9);
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.info {
+  color: white;
+  text-align: center;
+  margin-top: 1rem;
+  background: rgba(0, 195, 255, 0.9);
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.success {
+  color: white;
+  text-align: center;
+  margin-top: 1rem;
+  background: rgba(0, 180, 0, 0.9);
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.flex-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding-bottom: 2rem;
+}
+
+@media (max-width: 576px) {
+  .react-mint-button {
+    width: 100%;
+  }
+
+  .flex-container {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}
+
+.slider-wrapper {
+  padding: 1rem 2rem;
+}

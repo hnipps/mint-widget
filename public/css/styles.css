@@ -1,0 +1,51 @@
+.bg-cats {
+  height: 400%;
+  width: 400%;
+  top: -25%;
+  left: -100%;
+  background-size: 2000px auto;
+  background-image: url(../img/cats.png);
+}
+.class-1 {
+  background-image: url(../img/angled.svg);
+  background-size: 100% auto;
+  background-position: -5px -5px;
+}
+.class-2 {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0;
+}
+.class-3 {
+  box-sizing: border-box;
+  display: block;
+  max-width: 100%;
+}
+.class-4 {
+  max-width: 100%;
+  display: block;
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+.class-5 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  box-sizing: border-box;
+  padding: 0;
+  border: none;
+  margin: auto;
+  display: block;
+  width: 0;
+  height: 0;
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 100%;
+  max-height: 100%;
+}
