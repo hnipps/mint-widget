@@ -4,18 +4,23 @@ import { ChakraProvider } from "@chakra-ui/react";
 
 import App from "./App";
 import theme from "./theme";
+import AppConfigProvider, { AppConfig } from "./context/AppConfigContext";
+
+type Init = (params: AppConfig) => void;
 
 declare global {
   interface Window {
-    mintWidgetInit: () => void;
+    mintWidgetInit: Init;
   }
 }
 
-const init = () => {
+const init: Init = (params) => {
   ReactDOM.render(
     <React.StrictMode>
       <ChakraProvider theme={theme}>
-        <App />
+        <AppConfigProvider {...params}>
+          <App />
+        </AppConfigProvider>
       </ChakraProvider>
     </React.StrictMode>,
     document.getElementById("mint-controls")

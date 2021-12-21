@@ -6,14 +6,7 @@ import createFetchTotalSupply from "../contract/fetch-total-supply";
 import Countdown from "./Countdown";
 
 import styles from "./mint-counter.module.css";
-
-const provider = new ethers.providers.JsonRpcProvider(
-  process.env.REACT_APP_RPC_URL
-);
-
-const registry = ethers.ContractFactory.fromSolidity(contractAbi)
-  .attach(process.env.REACT_APP_CONTRACT_ADDRESS || "")
-  .connect(provider);
+import { useAppConfig } from "../context/AppConfigContext";
 
 interface Props {
   onPresaleOpen?: (val: boolean) => void;
@@ -21,10 +14,18 @@ interface Props {
 }
 
 const MintCounter: FC<Props> = ({ onPresaleOpen, onPublicSaleOpen }) => {
-  const fetchTotalSupply = createFetchTotalSupply(registry);
   const [totalSupply, setTotalSupply] = useState<number>(10000);
   const [isPublicSaleOpen, setIsPublicSaleOpen] = useState(false);
   const [saleStartTime, setSaleStartTime] = useState<number | null>(null);
+  const { rpcURL, contractAddress } = useAppConfig();
+
+  const provider = new ethers.providers.JsonRpcProvider(rpcURL);
+
+  const registry = ethers.ContractFactory.fromSolidity(contractAbi)
+    .attach(contractAddress || "")
+    .connect(provider);
+
+  const fetchTotalSupply = createFetchTotalSupply(registry);
 
   const maxSupply = 10000;
   const remainingSupply = maxSupply - totalSupply;

@@ -8,8 +8,8 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import contractAbi from "../utils/contract-abi";
 import styles from "./mint.module.css";
 import { Link, Icon, Button, Input } from "@chakra-ui/react";
-import wallets from "../utils/wallets";
 import MintCounter from "./MintCounter";
+import { useAppConfig } from "../context/AppConfigContext";
 
 const multFactor = 100000;
 
@@ -26,6 +26,7 @@ const Mint = ({ contractAddress }: Props) => {
   const [mintCount, setMintCount] = useState(100);
   const price = 0.03;
   const [address, setAddress] = useState<null | string>(null);
+  const { blocknativeKey, wallets, chainID } = useAppConfig();
 
   const handleAddressChange = (newAddress: string) => {
     setMessage(null);
@@ -106,8 +107,8 @@ const Mint = ({ contractAddress }: Props) => {
   useEffect(() => {
     setOnboard(
       Onboard({
-        dappId: process.env.REACT_APP_BNC_KEY, // [String] The API key created by step one above
-        networkId: parseInt(process.env.REACT_APP_CHAIN_ID || "4"), // [Integer] The Ethereum network ID your Dapp uses.
+        dappId: blocknativeKey, // [String] The API key created by step one above
+        networkId: parseInt(chainID || "4"), // [Integer] The Ethereum network ID your Dapp uses.
         subscriptions: {
           wallet: (wallet) => {
             setWeb3(new Web3Provider(wallet.provider));
@@ -118,7 +119,7 @@ const Mint = ({ contractAddress }: Props) => {
         walletSelect: { wallets },
       })
     );
-  }, []);
+  }, [blocknativeKey, wallets]);
 
   const handleConnectClick = async () => {
     if (onboard) {
