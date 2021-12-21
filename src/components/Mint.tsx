@@ -119,7 +119,7 @@ const Mint = ({ contractAddress }: Props) => {
         walletSelect: { wallets },
       })
     );
-  }, [blocknativeKey, wallets]);
+  }, [blocknativeKey, chainID, wallets]);
 
   const handleConnectClick = async () => {
     if (onboard) {
