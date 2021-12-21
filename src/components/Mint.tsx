@@ -35,7 +35,7 @@ const Mint = ({ contractAddress }: Props) => {
 
   const setMintingError = (error: any) => {
     const description =
-      error.error.code === -32000
+      error?.error?.code === -32000
         ? "You don't have enough funds in your wallet to complete this transaction"
         : error?.error?.message ||
           error?.reason ||
