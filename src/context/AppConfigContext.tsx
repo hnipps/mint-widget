@@ -11,6 +11,9 @@ export interface AppConfig {
   chainID: string;
   contractAddress: string;
   wallets: Array<WalletModule | WalletInitOptions>;
+  showCounter: boolean;
+  showWalletAddress: boolean;
+  showQuantitySelector: boolean;
 }
 
 const defaultConfig: AppConfig = {
@@ -19,6 +22,9 @@ const defaultConfig: AppConfig = {
   chainID: "",
   contractAddress: "",
   wallets: [],
+  showCounter: false,
+  showWalletAddress: false,
+  showQuantitySelector: false,
 };
 
 export const AppConfigContext = createContext(defaultConfig);

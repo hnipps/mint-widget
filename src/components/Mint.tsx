@@ -7,7 +7,7 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 
 import contractAbi from "../utils/contract-abi";
 import styles from "./mint.module.css";
-import { Link, Icon, Button, Input } from "@chakra-ui/react";
+import { Link, Icon, Button, Input, useToast } from "@chakra-ui/react";
 import MintCounter from "./MintCounter";
 import { useAppConfig } from "../context/AppConfigContext";
 
@@ -21,15 +21,22 @@ const Mint = ({ contractAddress }: Props) => {
   const [web3, setWeb3] = useState<Web3Provider | null>(null);
   const [onboard, setOnboard] = useState<API | null>(null);
   const [connected, setConnected] = useState(false);
-  const [message, setMessage] = useState<any | null>(null);
   const [isPublicSaleOpen, setIsPublicSaleOpen] = useState(false);
-  const [mintCount, setMintCount] = useState(100);
+  const [mintCount, setMintCount] = useState(1);
   const price = 0.03;
   const [address, setAddress] = useState<null | string>(null);
-  const { blocknativeKey, wallets, chainID } = useAppConfig();
+  const {
+    blocknativeKey,
+    wallets,
+    chainID,
+    showCounter,
+    showWalletAddress,
+    showQuantitySelector,
+  } = useAppConfig();
+
+  const toast = useToast();
 
   const handleAddressChange = (newAddress: string) => {
-    setMessage(null);
     setAddress(newAddress);
   };
 
@@ -42,7 +49,7 @@ const Mint = ({ contractAddress }: Props) => {
           error?.message ||
           "Something went wrong... Please refresh your page and try again.";
 
-    setMessage({
+    toast({
       title: "Uh Oh!",
       description,
       status: "error",
@@ -52,7 +59,7 @@ const Mint = ({ contractAddress }: Props) => {
   };
 
   const setMintingStart = (txHash: string) => {
-    setMessage({
+    toast({
       title: "Minting in progress",
       description: (
         <>
@@ -73,7 +80,7 @@ const Mint = ({ contractAddress }: Props) => {
   };
 
   const setMintingSuccess = (txHash: string) => {
-    setMessage({
+    toast({
       title: "Minting Successful!",
       description: (
         <Link
@@ -91,7 +98,7 @@ const Mint = ({ contractAddress }: Props) => {
   };
 
   const setMintingFailed = (txHash: string) => {
-    setMessage({
+    toast({
       title: "Minting Failed!",
       description: (
         <Link href={`://etherscan.io/tx/${txHash}`} isExternal>
@@ -123,15 +130,36 @@ const Mint = ({ contractAddress }: Props) => {
 
   const handleConnectClick = async () => {
     if (onboard) {
-      const connected = await onboard.walletSelect();
-      if (connected) {
-        setConnected(await onboard.walletCheck());
+      const newConnected = await onboard.walletSelect();
+      if (newConnected) {
+        const check = await onboard.walletCheck();
+        setConnected(check);
+        if (check) {
+          toast({
+            title: "Wallet connected!",
+            description: `You successfully connected your wallet: ${truncateAddress(
+              onboard.getState().address
+            )}`,
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+          });
+          return;
+        }
+
+        toast({
+          title: "Wallet connection failed!",
+          description:
+            "Something went wrong while trying to connect your wallet. Please try again.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
       }
     }
   };
 
   const handleMintClick = async () => {
-    setMessage(null);
     if (web3 && onboard && address) {
       const registry = ethers.ContractFactory.fromSolidity(contractAbi)
         .attach(contractAddress)
@@ -171,66 +199,57 @@ const Mint = ({ contractAddress }: Props) => {
     }
   };
 
-  const truncatedAddress = `${address?.slice(0, 6)}...${address?.slice(-6)}`;
+  const truncateAddress = (addressToChange: string) =>
+    `${addressToChange?.slice(0, 6)}...${addressToChange?.slice(-6)}`;
 
   return (
     <div>
-      <MintCounter onPublicSaleOpen={setIsPublicSaleOpen} />
+      {showCounter && <MintCounter onPublicSaleOpen={setIsPublicSaleOpen} />}
       <div className={styles["wrapper"]}>
         <div className={styles["flex-container"]}>
-          <Button
-            colorScheme="pink"
-            fontFamily="mono"
-            className={`btn mint-btn ${styles["connect-button"]} ${styles["react-mint-button"]}`}
-            onClick={handleConnectClick}
-          >
-            Connect
+          <Button colorScheme="red" onClick={handleConnectClick}>
+            Connect Wallet
           </Button>
           <Button
-            colorScheme="pink"
-            fontFamily="mono"
-            disabled={!connected || !isPublicSaleOpen}
-            className={`btn mint-btn ${styles["mint-button"]} ${styles["react-mint-button"]}`}
+            colorScheme="red"
+            disabled={!connected || (showCounter && !isPublicSaleOpen)}
             onClick={handleMintClick}
           >
             Mint
           </Button>
         </div>
-        <p className={styles["account-indicator"]}>
-          Mint {mintCount} Cat{mintCount > 1 ? "s" : ""} for {price * mintCount}{" "}
-          Ξ
-        </p>
-        <Input
-          type="number"
-          size="md"
-          variant="filled"
-          maxWidth="200px"
-          max={100}
-          min={1}
-          mx="auto"
-          value={mintCount}
-          onChange={(ev: ChangeEvent<HTMLInputElement>) =>
-            setMintCount(Math.min(parseInt(ev.target.value), 100))
-          }
-          onBlur={() => {
-            if (!mintCount) {
-              setMintCount(1);
-            }
-          }}
-          sx={{ _focus: { background: "white" } }}
-        />
-        <div className={styles["slider-wrapper"]}></div>
-        <p className={styles["account-indicator"]}>
-          <strong>Account:</strong>{" "}
-          {connected ? truncatedAddress : "Connect your wallet"}
-        </p>
-        {message && (
-          <div className={[styles.message, styles[message.status]].join(" ")}>
-            <div>
-              <h2>{message.title}</h2>
-              <p>{message.description}</p>
-            </div>
-          </div>
+        {showQuantitySelector && (
+          <>
+            <p className={styles["account-indicator"]}>
+              Mint {mintCount} token{mintCount > 1 ? "s" : ""} for{" "}
+              {price * mintCount} Ξ
+            </p>
+            <Input
+              type="number"
+              size="md"
+              variant="filled"
+              maxWidth="200px"
+              max={100}
+              min={1}
+              mx="auto"
+              value={mintCount}
+              onChange={(ev: ChangeEvent<HTMLInputElement>) =>
+                setMintCount(Math.min(parseInt(ev.target.value), 100))
+              }
+              onBlur={() => {
+                if (!mintCount) {
+                  setMintCount(1);
+                }
+              }}
+              sx={{ _focus: { background: "white" } }}
+            />
+          </>
+        )}
+        {showWalletAddress && (
+          <p className={styles["account-indicator"]}>
+            <strong>Account:</strong>{" "}
+            {connected ? truncateAddress(address || "") : "Connect your wallet"}
+          </p>
         )}
       </div>
     </div>

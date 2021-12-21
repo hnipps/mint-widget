@@ -25,8 +25,6 @@ const renderer = ({
 };
 
 const CountdownComponent: FC<Props> = ({ startTime }) => {
-  console.log("indy", startTime);
-
   const startDate = new Date(startTime * 1000);
 
   return new Date() < startDate ? (
@@ -36,9 +34,6 @@ const CountdownComponent: FC<Props> = ({ startTime }) => {
 
 const CountdownWrapper = (props: Props) => {
   const container = document.querySelector("#countdown");
-
-  console.log(container);
-
   return container
     ? ReactDOM.createPortal(<CountdownComponent {...props} />, container)
     : null;

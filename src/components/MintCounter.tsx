@@ -39,8 +39,6 @@ const MintCounter: FC<Props> = ({ onPresaleOpen, onPublicSaleOpen }) => {
         ethers.utils.formatUnits(await registry._startTime(), 0)
       );
       const publicSaleState = Date.now() >= publicSaleStartTime * 1000;
-      console.log({ publicSaleStartTime });
-      console.log({ Date: Date.now(), publicSaleState });
 
       setIsPublicSaleOpen(publicSaleState);
       onPublicSaleOpen(publicSaleState);

@@ -8,6 +8,10 @@ const fonts = {
   mono: "Menlo, monospace",
 };
 
+const global = {};
+
 const theme = extendTheme({ fonts });
+
+theme.styles.global = global;
 
 export default theme;
