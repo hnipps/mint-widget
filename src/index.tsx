@@ -3,8 +3,8 @@ import ReactDOM from "react-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 
 import App from "./App";
-import theme from "./theme";
 import AppConfigProvider, { AppConfig } from "./context/AppConfigContext";
+import extendTheme from "./theme";
 
 type Init = (params: AppConfig) => void;
 
@@ -14,7 +14,7 @@ declare global {
   }
 }
 
-const init: Init = (params) => {
+const init: Init = ({ theme, ...params }) => {
   ReactDOM.render(
     <React.StrictMode>
       <ChakraProvider theme={theme}>
@@ -30,6 +30,31 @@ const init: Init = (params) => {
 window.mintWidgetInit = init;
 
 if (process.env.NODE_ENV === "development") {
+  const theme = {
+    components: {
+      Button: {
+        baseStyle: {
+          fontFamily: "sans-serif"
+        },
+        variants: {
+          outline: {
+            borderColor: "white",
+            color: "white",
+            _hover: {
+              color: "black",
+            },
+          },
+          // 4. We can override existing variants
+          solid: {
+            _disabled: {
+              color: "black",
+            },
+          },
+        },
+      },
+    },
+  };
+
   window.mintWidgetInit({
     blocknativeKey: process.env.REACT_APP_BNC_KEY || "",
     rpcURL: process.env.REACT_APP_RPC_URL || "",
@@ -39,5 +64,6 @@ if (process.env.NODE_ENV === "development") {
     showCounter: false,
     showWalletAddress: false,
     showQuantitySelector: false,
+    theme: extendTheme(theme),
   });
 }

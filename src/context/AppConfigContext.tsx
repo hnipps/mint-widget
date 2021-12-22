@@ -1,9 +1,12 @@
+import { theme, ThemeExtension } from "@chakra-ui/react";
 import {
   WalletModule,
   WalletInitOptions,
 } from "bnc-onboard/dist/src/interfaces";
 import { createContext, FC, useContext, useEffect, useState } from "react";
 import configWallets from "../utils/wallets";
+
+export type Dict<T = any> = Record<string, T>;
 
 export interface AppConfig {
   blocknativeKey: string;
@@ -14,6 +17,7 @@ export interface AppConfig {
   showCounter: boolean;
   showWalletAddress: boolean;
   showQuantitySelector: boolean;
+  theme?: Dict;
 }
 
 const defaultConfig: AppConfig = {

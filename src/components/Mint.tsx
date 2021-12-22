@@ -207,11 +207,14 @@ const Mint = ({ contractAddress }: Props) => {
       {showCounter && <MintCounter onPublicSaleOpen={setIsPublicSaleOpen} />}
       <div className={styles["wrapper"]}>
         <div className={styles["flex-container"]}>
-          <Button colorScheme="red" onClick={handleConnectClick}>
-            Connect Wallet
+          <Button
+            disabled={connected}
+            variant="outline"
+            onClick={handleConnectClick}
+          >
+            {connected ? "Connected" : "Connect Wallet"}
           </Button>
           <Button
-            colorScheme="red"
             disabled={!connected || (showCounter && !isPublicSaleOpen)}
             onClick={handleMintClick}
           >
