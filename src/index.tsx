@@ -28,3 +28,16 @@ const init: Init = (params) => {
 };
 
 window.mintWidgetInit = init;
+
+if (process.env.NODE_ENV === "development") {
+  window.mintWidgetInit({
+    blocknativeKey: process.env.REACT_APP_BNC_KEY || "",
+    rpcURL: process.env.REACT_APP_RPC_URL || "",
+    chainID: process.env.REACT_APP_CHAIN_ID || "",
+    contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS || "",
+    wallets: [],
+    showCounter: false,
+    showWalletAddress: false,
+    showQuantitySelector: false,
+  });
+}
