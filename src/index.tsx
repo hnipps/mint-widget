@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === "development") {
     components: {
       Button: {
         baseStyle: {
-          fontFamily: "sans-serif"
+          fontFamily: "sans-serif",
         },
         variants: {
           outline: {
