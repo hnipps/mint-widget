@@ -15,9 +15,10 @@ declare global {
 }
 
 const init: Init = ({ theme, ...params }) => {
+  const newTheme = theme && extendTheme(theme);
   ReactDOM.render(
     <React.StrictMode>
-      <ChakraProvider theme={theme}>
+      <ChakraProvider theme={newTheme}>
         <AppConfigProvider {...params}>
           <App />
         </AppConfigProvider>
@@ -30,15 +31,42 @@ const init: Init = ({ theme, ...params }) => {
 window.mintWidgetInit = init;
 
 if (process.env.NODE_ENV === "development") {
+  // background: #00e5ff;
+  // box-shadow: 1px 1px 8px 0 #00e5ff;
+  // border: none;
+  // font-family: 'Varela Round', sans-serif;
+  // border-radius: 9999px;
+  // font-size: 24px;
+  // padding: 16px 36px;
+  // text-shadow: 1px 1px 10px rgb(0 23 118 / 20%);
+  // width: auto;
+  // display: inline-block;
+  // height: auto;
+  // color: #000725;
+  // font-weight: 400;
+  // transition: background-color 200ms ease;
+  // line-height: 36px;
+
   const theme = {
     components: {
       Button: {
         baseStyle: {
-          fontFamily: "sans-serif",
+          boxShadow: "1px 1px 8px 0 #00e5ff",
+          fontFamily: "'Varela Round', sans-serif",
+          border: "none",
+          borderRadius: "9999px",
+          width: "auto",
+          display: "inline-block",
+          h: "auto",
+          color: "#000725",
+          fontWeight: "400",
+          transition: "background-color 200ms ease",
+          lineHeight: "36px",
         },
         variants: {
           outline: {
-            borderColor: "white",
+            height: "auto",
+            border: "none",
             color: "white",
             _hover: {
               color: "black",
@@ -46,6 +74,18 @@ if (process.env.NODE_ENV === "development") {
           },
           // 4. We can override existing variants
           solid: {
+            padding: "16px 36px",
+            fontSize: "24px",
+            bg: "#00e5ff",
+            h: "auto",
+            textShadow: "1px 1px 10px rgb(0 23 118 / 20%)",
+            minW: "300px",
+            _hover: {
+              bg: "#60efff",
+            },
+            _active: {
+              bg: "#60efff",
+            },
             _disabled: {
               color: "black",
             },
@@ -54,6 +94,31 @@ if (process.env.NODE_ENV === "development") {
       },
     },
   };
+
+  // const theme = {
+  //   components: {
+  //     Button: {
+  //       baseStyle: {
+  //         fontFamily: "sans-serif",
+  //       },
+  //       variants: {
+  //         outline: {
+  //           borderColor: "white",
+  //           color: "white",
+  //           _hover: {
+  //             color: "black",
+  //           },
+  //         },
+  //         // 4. We can override existing variants
+  //         solid: {
+  //           _disabled: {
+  //             color: "black",
+  //           },
+  //         },
+  //       },
+  //     },
+  //   },
+  // };
 
   window.mintWidgetInit({
     blocknativeKey: process.env.REACT_APP_BNC_KEY || "",
@@ -64,6 +129,6 @@ if (process.env.NODE_ENV === "development") {
     showCounter: false,
     showWalletAddress: false,
     showQuantitySelector: false,
-    theme: extendTheme(theme),
+    theme,
   });
 }

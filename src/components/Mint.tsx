@@ -50,6 +50,7 @@ const Mint = ({ contractAddress }: Props) => {
           "Something went wrong... Please refresh your page and try again.";
 
     toast({
+      position: "top-right",
       title: "Uh Oh!",
       description,
       status: "error",
@@ -60,6 +61,7 @@ const Mint = ({ contractAddress }: Props) => {
 
   const setMintingStart = (txHash: string) => {
     toast({
+      position: "top-right",
       title: "Minting in progress",
       description: (
         <>
@@ -81,6 +83,7 @@ const Mint = ({ contractAddress }: Props) => {
 
   const setMintingSuccess = (txHash: string) => {
     toast({
+      position: "top-right",
       title: "Minting Successful!",
       description: (
         <Link
@@ -99,6 +102,7 @@ const Mint = ({ contractAddress }: Props) => {
 
   const setMintingFailed = (txHash: string) => {
     toast({
+      position: "top-right",
       title: "Minting Failed!",
       description: (
         <Link href={`://etherscan.io/tx/${txHash}`} isExternal>
@@ -136,6 +140,7 @@ const Mint = ({ contractAddress }: Props) => {
         setConnected(check);
         if (check) {
           toast({
+            position: "top-right",
             title: "Wallet connected!",
             description: `You successfully connected your wallet: ${truncateAddress(
               onboard.getState().address
@@ -148,6 +153,7 @@ const Mint = ({ contractAddress }: Props) => {
         }
 
         toast({
+          position: "top-right",
           title: "Wallet connection failed!",
           description:
             "Something went wrong while trying to connect your wallet. Please try again.",
@@ -206,20 +212,19 @@ const Mint = ({ contractAddress }: Props) => {
     <div>
       {showCounter && <MintCounter onPublicSaleOpen={setIsPublicSaleOpen} />}
       <div className={styles["wrapper"]}>
-        <div className={styles["flex-container"]}>
-          <Button
-            disabled={connected}
-            variant="outline"
-            onClick={handleConnectClick}
-          >
-            {connected ? "Connected" : "Connect Wallet"}
-          </Button>
-          <Button
-            disabled={!connected || (showCounter && !isPublicSaleOpen)}
-            onClick={handleMintClick}
-          >
-            Mint
-          </Button>
+        <div>
+          {connected ? (
+            <Button
+              disabled={showCounter && !isPublicSaleOpen}
+              onClick={handleMintClick}
+            >
+              Mint
+            </Button>
+          ) : (
+            <Button variant="solid" onClick={handleConnectClick}>
+              Connect Wallet
+            </Button>
+          )}
         </div>
         {showQuantitySelector && (
           <>
