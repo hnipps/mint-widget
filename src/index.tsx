@@ -130,5 +130,8 @@ if (process.env.NODE_ENV === "development") {
     showWalletAddress: true,
     showQuantitySelector: true,
     theme,
+    presale: true,
+    projectId: "51f3e408758a4c8cbc8c8559dd00c4de",
+    mintFn: "presale",
   });
 }

@@ -18,6 +18,10 @@ export interface AppConfig {
   showQuantitySelector: boolean;
   theme?: Dict;
   mintLimit: number;
+  presale: boolean;
+  projectId: string;
+  mintFn: string;
+  price: number;
 }
 
 const defaultConfig: AppConfig = {
@@ -30,6 +34,10 @@ const defaultConfig: AppConfig = {
   showWalletAddress: false,
   showQuantitySelector: false,
   mintLimit: 10,
+  presale: false,
+  projectId: "",
+  mintFn: "mint",
+  price: 1,
 };
 
 export const AppConfigContext = createContext(defaultConfig);

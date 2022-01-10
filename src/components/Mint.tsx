@@ -10,6 +10,7 @@ import styles from "./mint.module.css";
 import { Link, Icon, Button, Input, useToast } from "@chakra-ui/react";
 import MintCounter from "./MintCounter";
 import { useAppConfig } from "../context/AppConfigContext";
+import { getSignature } from "../utils/api";
 
 const multFactor = 100000;
 
@@ -23,7 +24,6 @@ const Mint = ({ contractAddress }: Props) => {
   const [connected, setConnected] = useState(false);
   const [isPublicSaleOpen, setIsPublicSaleOpen] = useState(false);
   const [mintCount, setMintCount] = useState(1);
-  const price = 0.03;
   const [address, setAddress] = useState<null | string>(null);
   const {
     blocknativeKey,
@@ -33,6 +33,9 @@ const Mint = ({ contractAddress }: Props) => {
     showWalletAddress,
     showQuantitySelector,
     mintLimit,
+    projectId,
+    mintFn,
+    price,
   } = useAppConfig();
 
   const toast = useToast();
@@ -168,12 +171,15 @@ const Mint = ({ contractAddress }: Props) => {
 
   const handleMintClick = async () => {
     if (web3 && onboard && address) {
+      const signature = await getSignature(address, mintCount, projectId);
+
       const registry = ethers.ContractFactory.fromSolidity(contractAbi)
         .attach(contractAddress)
         .connect(web3);
 
-      const data = await registry.interface.encodeFunctionData("mint", [
+      const data = await registry.interface.encodeFunctionData(mintFn, [
         mintCount,
+        signature,
       ]);
 
       const transaction = {
