@@ -32,6 +32,7 @@ const Mint = ({ contractAddress }: Props) => {
     showCounter,
     showWalletAddress,
     showQuantitySelector,
+    mintLimit,
   } = useAppConfig();
 
   const toast = useToast();
@@ -230,7 +231,7 @@ const Mint = ({ contractAddress }: Props) => {
           <>
             <p className={styles["account-indicator"]}>
               Mint {mintCount} token{mintCount > 1 ? "s" : ""} for{" "}
-              {price * mintCount} Ξ
+              {(price * mintCount).toFixed(2)} Ξ
             </p>
             <Input
               type="number"
@@ -242,7 +243,7 @@ const Mint = ({ contractAddress }: Props) => {
               mx="auto"
               value={mintCount}
               onChange={(ev: ChangeEvent<HTMLInputElement>) =>
-                setMintCount(Math.min(parseInt(ev.target.value), 100))
+                setMintCount(Math.min(parseInt(ev.target.value), mintLimit))
               }
               onBlur={() => {
                 if (!mintCount) {

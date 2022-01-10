@@ -6,7 +6,7 @@ import App from "./App";
 import AppConfigProvider, { AppConfig } from "./context/AppConfigContext";
 import extendTheme from "./theme";
 
-type Init = (params: AppConfig) => void;
+type Init = (params: Partial<AppConfig>) => void;
 
 declare global {
   interface Window {
@@ -127,8 +127,8 @@ if (process.env.NODE_ENV === "development") {
     contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS || "",
     wallets: [],
     showCounter: false,
-    showWalletAddress: false,
-    showQuantitySelector: false,
+    showWalletAddress: true,
+    showQuantitySelector: true,
     theme,
   });
 }

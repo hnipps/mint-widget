@@ -1,4 +1,3 @@
-import { theme, ThemeExtension } from "@chakra-ui/react";
 import {
   WalletModule,
   WalletInitOptions,
@@ -18,6 +17,7 @@ export interface AppConfig {
   showWalletAddress: boolean;
   showQuantitySelector: boolean;
   theme?: Dict;
+  mintLimit: number;
 }
 
 const defaultConfig: AppConfig = {
@@ -29,28 +29,34 @@ const defaultConfig: AppConfig = {
   showCounter: false,
   showWalletAddress: false,
   showQuantitySelector: false,
+  mintLimit: 10,
 };
 
 export const AppConfigContext = createContext(defaultConfig);
 
 export const useAppConfig = () => useContext(AppConfigContext);
 
-const AppConfigProvider: FC<AppConfig> = ({ children, ...props }) => {
+const AppConfigProvider: FC<Partial<AppConfig>> = ({ children, ...props }) => {
   const [wallets, setWallets] = useState<
     Array<WalletModule | WalletInitOptions>
   >([]);
 
+  const mergedProps: AppConfig = {
+    ...defaultConfig,
+    ...props,
+  };
+
   useEffect(() => {
     const wallets = configWallets({
-      rpcURL: props.rpcURL,
-      chainID: props.chainID,
+      rpcURL: mergedProps.rpcURL,
+      chainID: mergedProps.chainID,
     });
 
     setWallets(wallets);
-  }, [props.chainID, props.rpcURL]);
+  }, [mergedProps.chainID, mergedProps.rpcURL]);
 
   return (
-    <AppConfigContext.Provider value={{ ...props, wallets }}>
+    <AppConfigContext.Provider value={{ ...mergedProps, wallets }}>
       {children}
     </AppConfigContext.Provider>
   );
