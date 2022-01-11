@@ -25,6 +25,8 @@ export interface AppConfig {
   appName: string;
   appUrl: string;
   contactEmail: string;
+  showClaim: boolean;
+  claimFn: string;
 }
 
 const defaultConfig: AppConfig = {
@@ -44,6 +46,8 @@ const defaultConfig: AppConfig = {
   appName: "",
   appUrl: "",
   contactEmail: "",
+  showClaim: false,
+  claimFn: "claim",
 };
 
 export const AppConfigContext = createContext(defaultConfig);

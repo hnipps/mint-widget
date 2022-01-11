@@ -4,13 +4,20 @@ import Onboard from "bnc-onboard";
 import { Web3Provider } from "@ethersproject/providers";
 import type { API } from "bnc-onboard/dist/src/interfaces";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import {
+  Link,
+  Icon,
+  Text,
+  Button,
+  Input,
+  useToast,
+  Stack,
+} from "@chakra-ui/react";
 
 import contractAbi from "../utils/contract-abi";
-import styles from "./mint.module.css";
-import { Link, Icon, Button, Input, useToast } from "@chakra-ui/react";
 import MintCounter from "./MintCounter";
 import { useAppConfig } from "../context/AppConfigContext";
-import { getSignature } from "../utils/api";
+import { checkClaim, getSignature } from "../utils/api";
 
 const multFactor = 100000;
 
@@ -36,9 +43,26 @@ const Mint = ({ contractAddress }: Props) => {
     projectId,
     mintFn,
     price,
+    showClaim,
+    claimFn,
+    presale,
   } = useAppConfig();
 
   const toast = useToast();
+
+  useEffect(() => {
+    if (!showClaim) {
+      return;
+    }
+
+    const check = async () => {
+      if (address) {
+        const result = await checkClaim(address, projectId);
+        setMintCount(result);
+      }
+    };
+    check();
+  }, [address, projectId, showClaim]);
 
   const handleAddressChange = (newAddress: string) => {
     setAddress(newAddress);
@@ -171,16 +195,32 @@ const Mint = ({ contractAddress }: Props) => {
 
   const handleMintClick = async () => {
     if (web3 && onboard && address) {
-      const signature = await getSignature(address, mintCount, projectId);
+      if (presale) {
+        const { signature, error } = await getSignature(
+          address,
+          mintCount,
+          projectId
+        );
+        if (error) {
+          setMintingError(error);
+          return;
+        }
 
+        mint([mintCount, signature]);
+        return;
+      }
+
+      mint([mintCount]);
+    }
+  };
+
+  const mint = async (params: any[]) => {
+    if (web3 && onboard && address) {
       const registry = ethers.ContractFactory.fromSolidity(contractAbi)
         .attach(contractAddress)
         .connect(web3);
 
-      const data = await registry.interface.encodeFunctionData(mintFn, [
-        mintCount,
-        signature,
-      ]);
+      const data = await registry.interface.encodeFunctionData(mintFn, params);
 
       const transaction = {
         to: contractAddress,
@@ -212,20 +252,76 @@ const Mint = ({ contractAddress }: Props) => {
     }
   };
 
+  const handleClaimClick = async () => {
+    if (web3 && onboard && address) {
+      const { signature, error } = await getSignature(
+        address,
+        mintCount,
+        projectId
+      );
+      if (error) {
+        setMintingError(error);
+        return;
+      }
+
+      const registry = ethers.ContractFactory.fromSolidity(contractAbi)
+        .attach(contractAddress)
+        .connect(web3);
+
+      const data = await registry.interface.encodeFunctionData(claimFn, [
+        mintCount,
+        signature,
+      ]);
+
+      const transaction = {
+        to: contractAddress,
+        from: address,
+        value: 0,
+        data,
+      };
+
+      const tx = await web3
+        .getSigner()
+        .sendTransaction(transaction)
+        .catch((err) => setMintingError(err));
+
+      if (!tx) return;
+
+      const txHash = tx.hash;
+
+      tx.wait()
+        .then(async () => {
+          setMintingSuccess(txHash);
+        })
+        .catch(() => {
+          setMintingFailed(txHash);
+        });
+
+      setMintingStart(txHash);
+    }
+  };
+
   const truncateAddress = (addressToChange: string) =>
     `${addressToChange?.slice(0, 6)}...${addressToChange?.slice(-6)}`;
 
   return (
     <div>
-      {showCounter && <MintCounter onPublicSaleOpen={setIsPublicSaleOpen} />}
-      <div className={styles["wrapper"]}>
+      <Stack alignItems="center" spacing={5}>
+        {showCounter && <MintCounter onPublicSaleOpen={setIsPublicSaleOpen} />}
+        {showClaim && (
+          <Text textAlign="center">
+            {address
+              ? `You can claim ${mintCount} free tokens.`
+              : "Connect your wallet to check if you can claim tokens."}
+          </Text>
+        )}
         <div>
           {connected ? (
             <Button
-              disabled={showCounter && !isPublicSaleOpen}
-              onClick={handleMintClick}
+              disabled={(showCounter && !isPublicSaleOpen) || mintCount < 1}
+              onClick={showClaim ? handleClaimClick : handleMintClick}
             >
-              Mint
+              {showClaim ? "Claim" : "Mint"}
             </Button>
           ) : (
             <Button variant="solid" onClick={handleConnectClick}>
@@ -233,12 +329,12 @@ const Mint = ({ contractAddress }: Props) => {
             </Button>
           )}
         </div>
-        {showQuantitySelector && (
+        {!showClaim && showQuantitySelector && (
           <>
-            <p className={styles["account-indicator"]}>
+            <Text textAlign="center">
               Mint {mintCount} token{mintCount > 1 ? "s" : ""} for{" "}
               {(price * mintCount).toFixed(2)} Ξ
-            </p>
+            </Text>
             <Input
               type="number"
               size="md"
@@ -261,12 +357,12 @@ const Mint = ({ contractAddress }: Props) => {
           </>
         )}
         {showWalletAddress && (
-          <p className={styles["account-indicator"]}>
+          <Text textAlign="center">
             <strong>Account:</strong>{" "}
             {connected ? truncateAddress(address || "") : "Connect your wallet"}
-          </p>
+          </Text>
         )}
-      </div>
+      </Stack>
     </div>
   );
 };

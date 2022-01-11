@@ -49,6 +49,11 @@ if (process.env.NODE_ENV === "development") {
 
   const theme = {
     components: {
+      Text: {
+        baseStyle: {
+          color: "white",
+        },
+      },
       Button: {
         baseStyle: {
           boxShadow: "1px 1px 8px 0 #00e5ff",
@@ -124,7 +129,8 @@ if (process.env.NODE_ENV === "development") {
     blocknativeKey: process.env.REACT_APP_BNC_KEY || "",
     rpcURL: process.env.REACT_APP_RPC_URL || "",
     chainID: process.env.REACT_APP_CHAIN_ID || "",
-    contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS || "",
+    // contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS || "",
+    contractAddress: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
     wallets: [],
     showCounter: false,
     showWalletAddress: true,
@@ -132,9 +138,12 @@ if (process.env.NODE_ENV === "development") {
     theme,
     presale: true,
     projectId: "51f3e408758a4c8cbc8c8559dd00c4de",
-    mintFn: "presale",
+    mintFn: "mint",
     appName: "Mutant Cats",
     appUrl: "www.mutantcats-example.com",
     contactEmail: "mutant@example.com",
+    price: 0.05,
+    showClaim: true,
+    claimFn: "claim",
   });
 }

@@ -33,10 +33,59 @@ contract Test is ERC721Enumerable, Ownable, PaymentSplitter {
     address[] addressList = [t1, t2];
     uint256[] shareList = [90, 10];
 
+    bool isFreesaleActive = true;
+    uint256 totalClaimed = 0;
+    uint256 MAX_CLAIM = 5;
+    mapping(address => uint256) _claimed;
+    bool isVerified = true;
+
     constructor()
         ERC721("Test", "TEST")
         PaymentSplitter(addressList, shareList)
     {}
+
+    function verifySignature(string memory quantity, bytes calldata signature) pure internal returns(bool) {
+return true;
+    }
+
+    function claim( uint quantity, bytes calldata signature ) external {
+    require( isFreesaleActive, "Claim is not active" );
+    require( totalClaimed < MAX_CLAIM, "No claim supply available" );
+    require( _claimed[ msg.sender ] < quantity, "No claims available" );
+
+    if( isVerified )
+      verifySignature( quantity.toString(), signature );
+
+    quantity -= _claimed[ msg.sender ];
+    totalClaimed += quantity;
+    require( totalClaimed < MAX_CLAIM, "No claim supply available" );
+
+    uint supply = totalSupply();
+    require( quantity + supply < MAX_SUPPLY );
+    _claimed[ msg.sender ] += quantity;
+
+    for(uint i; i < quantity; i++){
+      _mint( msg.sender, supply++ );
+    }
+  }
+
+
+    function presale(uint256 _count, bytes calldata signature) public payable {
+        uint256 supply = totalSupply();
+        require(
+            _count <= MAX_TOKENS_PER_TRANSACTION,
+            "You can mint a maximum of 20 Apes per transaction"
+        );
+        require(
+            supply + _count <= MAX_SUPPLY,
+            "Exceeds current Ape supply limit"
+        );
+        require(msg.value >= _price * _count, "Ether sent is not correct");
+
+        for (uint256 i; i < _count; i++) {
+            _safeMint(msg.sender, supply + i);
+        }
+    }
 
     function mint(uint256 _count) public payable {
         uint256 supply = totalSupply();
