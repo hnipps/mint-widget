@@ -7,6 +7,7 @@ const resolve = require("resolve");
 const PnpWebpackPlugin = require("pnp-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
+const InlineChunkHtmlPlugin = require("react-dev-utils/InlineChunkHtmlPlugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
@@ -25,10 +26,9 @@ const ModuleNotFoundPlugin = require("react-dev-utils/ModuleNotFoundPlugin");
 const ForkTsCheckerWebpackPlugin = require("react-dev-utils/ForkTsCheckerWebpackPlugin");
 const typescriptFormatter = require("react-dev-utils/typescriptFormatter");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+const postcssNormalize = require("postcss-normalize");
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
-
-const postcssNormalize = require("postcss-normalize");
 
 const appPackageJson = require(paths.appPackageJson);
 
@@ -202,9 +202,15 @@ module.exports = function (webpackEnv) {
       pathinfo: isEnvDevelopment,
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
-      filename: "static/js/bundle.[hash].min.js",
+      filename: isEnvProduction
+        ? "static/js/[name].[contenthash:8].js"
+        : isEnvDevelopment && "static/js/bundle.js",
       // TODO: remove this when upgrading to webpack 5
       futureEmitAssets: true,
+      // There are also additional JS chunk files if you use code splitting.
+      chunkFilename: isEnvProduction
+        ? "static/js/[name].[contenthash:8].chunk.js"
+        : isEnvDevelopment && "static/js/[name].chunk.js",
       // webpack uses `publicPath` to determine where the app is being served from.
       // It requires a trailing slash, or the file assets will get an incorrect path.
       // We inferred the "public path" (such as / or /my-project) from homepage.
@@ -269,7 +275,6 @@ module.exports = function (webpackEnv) {
           },
           sourceMap: shouldUseSourceMap,
         }),
-        new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
         // This is only used in production mode
         new OptimizeCSSAssetsPlugin({
           cssProcessorOptions: {
@@ -290,7 +295,14 @@ module.exports = function (webpackEnv) {
           },
         }),
       ],
-      runtimeChunk: false,
+      // Automatically split vendor and commons
+      // https://twitter.com/wSokra/status/969633336732905474
+      // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
+      splitChunks: {
+        chunks: "all",
+        name: isEnvDevelopment,
+        maxInitialRequests: 1,
+      },
     },
     resolve: {
       // This allows you to set a fallback for where webpack should look for modules.
@@ -392,7 +404,6 @@ module.exports = function (webpackEnv) {
                     },
                   ],
                 ],
-
                 plugins: [
                   [
                     require.resolve("babel-plugin-named-asset-import"),
@@ -437,7 +448,6 @@ module.exports = function (webpackEnv) {
                 cacheDirectory: true,
                 // See #6846 for context on why cacheCompression is disabled
                 cacheCompression: false,
-
                 // Babel sourcemaps are needed for debugging into node_modules
                 // code.  Without the options below, debuggers like VSCode
                 // show incorrect code and set breakpoints on the wrong lines.
@@ -569,6 +579,12 @@ module.exports = function (webpackEnv) {
             : undefined
         )
       ),
+      // Inlines the webpack runtime script. This script is too small to warrant
+      // a network request.
+      // https://github.com/facebook/create-react-app/issues/5358
+      isEnvProduction &&
+        shouldInlineRuntimeChunk &&
+        new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),
       // Makes some environment variables available in index.html.
       // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
       // <link rel="icon" href="%PUBLIC_URL%/favicon.ico">
@@ -613,7 +629,10 @@ module.exports = function (webpackEnv) {
         new WatchMissingNodeModulesPlugin(paths.appNodeModules),
       isEnvProduction &&
         new MiniCssExtractPlugin({
-          filename: "static/css/bundle.[hash].min.css",
+          // Options similar to the same options in webpackOptions.output
+          // both options are optional
+          filename: "static/css/[name].[contenthash:8].css",
+          chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
         }),
       // Generate an asset manifest file with the following content:
       // - "files" key: Mapping of all asset filenames to their corresponding
