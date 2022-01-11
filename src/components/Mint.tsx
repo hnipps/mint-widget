@@ -201,6 +201,8 @@ const Mint = ({ contractAddress }: Props) => {
           mintCount,
           projectId
         );
+        console.log({ signature, error, mintCount, projectId, address });
+
         if (error) {
           setMintingError(error);
           return;
@@ -210,7 +212,7 @@ const Mint = ({ contractAddress }: Props) => {
         return;
       }
 
-      mint([mintCount]);
+      mint([mintCount, "0xab6c"]);
     }
   };
 
