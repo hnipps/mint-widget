@@ -84,7 +84,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "publish": "aws s3 cp ./build/static/ s3://gdx-mint-widget-website/ --recursive"
   },
   "eslintConfig": {
     "extends": [
@@ -160,5 +161,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "webpack-bundle-analyzer": "^4.5.0"
   }
 }

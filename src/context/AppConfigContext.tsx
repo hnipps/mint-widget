@@ -22,6 +22,9 @@ export interface AppConfig {
   projectId: string;
   mintFn: string;
   price: number;
+  appName: string;
+  appUrl: string;
+  contactEmail: string;
 }
 
 const defaultConfig: AppConfig = {
@@ -38,6 +41,9 @@ const defaultConfig: AppConfig = {
   projectId: "",
   mintFn: "mint",
   price: 1,
+  appName: "",
+  appUrl: "",
+  contactEmail: "",
 };
 
 export const AppConfigContext = createContext(defaultConfig);
@@ -58,10 +64,19 @@ const AppConfigProvider: FC<Partial<AppConfig>> = ({ children, ...props }) => {
     const wallets = configWallets({
       rpcURL: mergedProps.rpcURL,
       chainID: mergedProps.chainID,
+      appName: mergedProps.appName,
+      appUrl: mergedProps.appUrl,
+      contactEmail: mergedProps.contactEmail,
     });
 
     setWallets(wallets);
-  }, [mergedProps.chainID, mergedProps.rpcURL]);
+  }, [
+    mergedProps.appName,
+    mergedProps.appUrl,
+    mergedProps.chainID,
+    mergedProps.contactEmail,
+    mergedProps.rpcURL,
+  ]);
 
   return (
     <AppConfigContext.Provider value={{ ...mergedProps, wallets }}>

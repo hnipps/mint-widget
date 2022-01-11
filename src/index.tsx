@@ -133,5 +133,8 @@ if (process.env.NODE_ENV === "development") {
     presale: true,
     projectId: "51f3e408758a4c8cbc8c8559dd00c4de",
     mintFn: "presale",
+    appName: "Mutant Cats",
+    appUrl: "www.mutantcats-example.com",
+    contactEmail: "mutant@example.com",
   });
 }

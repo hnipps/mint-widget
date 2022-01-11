@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { ethers } from "ethers";
 import Onboard from "bnc-onboard";
 import { Web3Provider } from "@ethersproject/providers";
-import { API } from "bnc-onboard/dist/src/interfaces";
+import type { API } from "bnc-onboard/dist/src/interfaces";
 import { FaExternalLinkAlt } from "react-icons/fa";
 
 import contractAbi from "../utils/contract-abi";

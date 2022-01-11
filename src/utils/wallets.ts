@@ -1,4 +1,4 @@
-import {
+import type {
   WalletInitOptions,
   WalletModule,
 } from "bnc-onboard/dist/src/interfaces";
@@ -6,14 +6,16 @@ import {
 const configWallets = ({
   rpcURL,
   chainID,
+  appName,
+  appUrl,
+  contactEmail,
 }: {
   rpcURL: string;
   chainID: string;
+  appName: string;
+  appUrl: string;
+  contactEmail: string;
 }): Array<WalletModule | WalletInitOptions> => {
-  const APP_NAME = "Cyber Hornets Colony";
-  const APP_URL = "https://www.cyberhornetscolony.com/";
-  const CONTACT_EMAIL = "ParabolicGuy@gmail.com";
-
   const wallets = [
     { walletName: "metamask", preferred: true },
     { walletName: "coinbase", preferred: true },
@@ -29,7 +31,7 @@ const configWallets = ({
       walletName: "walletLink",
       preferred: true,
       rpcUrl: rpcURL,
-      appName: APP_NAME,
+      appName: appName,
     },
     { walletName: "frame" },
     { walletName: "authereum" },
@@ -41,14 +43,14 @@ const configWallets = ({
     {
       walletName: "trezor",
       preferred: true,
-      appUrl: APP_URL,
-      email: CONTACT_EMAIL,
+      appUrl: appUrl,
+      email: contactEmail,
       rpcUrl: rpcURL,
     },
     {
       walletName: "lattice",
       rpcUrl: rpcURL,
-      appName: APP_NAME,
+      appName: appName,
     },
     {
       walletName: "keepkey",
@@ -57,12 +59,12 @@ const configWallets = ({
     {
       walletName: "cobovault",
       rpcUrl: rpcURL,
-      appName: APP_NAME,
+      appName: appName,
     },
     {
       walletName: "keystone",
       rpcUrl: rpcURL,
-      appName: APP_NAME,
+      appName: appName,
     },
     { walletName: "opera" },
     { walletName: "operaTouch" },
