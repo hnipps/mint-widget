@@ -83,6 +83,11 @@ const configWallets = ({
     { walletName: "bitpie" },
     { walletName: "binance" },
     { walletName: "liquality" },
+    {
+      walletName: "fortmatic",
+      apiKey: process.env.REACT_APP_FORTMATIC_API_KEY,
+      preferred: true,
+    },
   ];
 
   return wallets;

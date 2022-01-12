@@ -144,6 +144,6 @@ if (process.env.NODE_ENV === "development") {
     price: 0.05,
     showClaim: false,
     claimFn: "claim",
-    widgetDisabled: true,
+    widgetDisabled: false,
   });
 }
