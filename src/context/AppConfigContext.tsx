@@ -27,6 +27,7 @@ export interface AppConfig {
   contactEmail: string;
   showClaim: boolean;
   claimFn: string;
+  widgetDisabled: boolean;
 }
 
 const defaultConfig: AppConfig = {
@@ -48,6 +49,7 @@ const defaultConfig: AppConfig = {
   contactEmail: "",
   showClaim: false,
   claimFn: "claim",
+  widgetDisabled: false,
 };
 
 export const AppConfigContext = createContext(defaultConfig);

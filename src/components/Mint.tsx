@@ -12,6 +12,7 @@ import {
   Input,
   useToast,
   Stack,
+  Heading,
 } from "@chakra-ui/react";
 
 import contractAbi from "../utils/contract-abi";
@@ -30,7 +31,7 @@ const Mint = ({ contractAddress }: Props) => {
   const [onboard, setOnboard] = useState<API | null>(null);
   const [connected, setConnected] = useState(false);
   const [isPublicSaleOpen, setIsPublicSaleOpen] = useState(false);
-  const [mintCount, setMintCount] = useState(1);
+  const [mintCount, setMintCount] = useState(0);
   const [address, setAddress] = useState<null | string>(null);
   const {
     blocknativeKey,
@@ -46,6 +47,7 @@ const Mint = ({ contractAddress }: Props) => {
     showClaim,
     claimFn,
     presale,
+    widgetDisabled,
   } = useAppConfig();
 
   const toast = useToast();
@@ -309,60 +311,70 @@ const Mint = ({ contractAddress }: Props) => {
   return (
     <div>
       <Stack alignItems="center" spacing={5}>
-        {showCounter && <MintCounter onPublicSaleOpen={setIsPublicSaleOpen} />}
-        {showClaim && (
-          <Text textAlign="center">
-            {address
-              ? `You can claim ${mintCount} free tokens.`
-              : "Connect your wallet to check if you can claim tokens."}
-          </Text>
-        )}
-        <div>
-          {connected ? (
-            <Button
-              disabled={(showCounter && !isPublicSaleOpen) || mintCount < 1}
-              onClick={showClaim ? handleClaimClick : handleMintClick}
-            >
-              {showClaim ? "Claim" : "Mint"}
-            </Button>
-          ) : (
-            <Button variant="solid" onClick={handleConnectClick}>
-              Connect Wallet
-            </Button>
-          )}
-        </div>
-        {!showClaim && showQuantitySelector && (
+        {widgetDisabled ? (
+          <Button disabled={true}>Coming Soon!</Button>
+        ) : (
           <>
-            <Text textAlign="center">
-              Mint {mintCount} token{mintCount > 1 ? "s" : ""} for{" "}
-              {(price * mintCount).toFixed(2)} Ξ
-            </Text>
-            <Input
-              type="number"
-              size="md"
-              variant="filled"
-              maxWidth="200px"
-              max={100}
-              min={1}
-              mx="auto"
-              value={mintCount}
-              onChange={(ev: ChangeEvent<HTMLInputElement>) =>
-                setMintCount(Math.min(parseInt(ev.target.value), mintLimit))
-              }
-              onBlur={() => {
-                if (!mintCount) {
-                  setMintCount(1);
-                }
-              }}
-              sx={{ _focus: { background: "white" } }}
-            />
+            {showCounter && (
+              <MintCounter onPublicSaleOpen={setIsPublicSaleOpen} />
+            )}
+            {showClaim && (
+              <Text textAlign="center">
+                {address
+                  ? `You can claim ${mintCount} free tokens.`
+                  : "Connect your wallet to check if you can claim tokens."}
+              </Text>
+            )}
+            <div>
+              {connected ? (
+                <Button
+                  disabled={(showCounter && !isPublicSaleOpen) || mintCount < 1}
+                  onClick={showClaim ? handleClaimClick : handleMintClick}
+                >
+                  {showClaim ? "Claim" : "Mint"}
+                </Button>
+              ) : (
+                <Button variant="solid" onClick={handleConnectClick}>
+                  Connect Wallet
+                </Button>
+              )}
+            </div>
+            {!showClaim && showQuantitySelector && (
+              <>
+                <Text textAlign="center">
+                  Mint {mintCount} token{mintCount > 1 ? "s" : ""} for{" "}
+                  {(price * mintCount).toFixed(2)} Ξ
+                </Text>
+                <Input
+                  type="number"
+                  size="md"
+                  variant="filled"
+                  maxWidth="200px"
+                  max={100}
+                  min={1}
+                  mx="auto"
+                  value={mintCount}
+                  onChange={(ev: ChangeEvent<HTMLInputElement>) =>
+                    setMintCount(Math.min(parseInt(ev.target.value), mintLimit))
+                  }
+                  onBlur={() => {
+                    if (!mintCount) {
+                      setMintCount(1);
+                    }
+                  }}
+                  sx={{ _focus: { background: "white" } }}
+                />
+              </>
+            )}
+            {showWalletAddress && (
+              <Text textAlign="center">
+                <strong>Account:</strong>{" "}
+                {connected
+                  ? truncateAddress(address || "")
+                  : "Connect your wallet"}
+              </Text>
+            )}
           </>
-        )}
-        {showWalletAddress && (
-          <Text textAlign="center">
-            <strong>Account:</strong>{" "}
-            {connected ? truncateAddress(address || "") : "Connect your wallet"}
-          </Text>
         )}
       </Stack>
     </div>
