@@ -12,7 +12,6 @@ import {
   Input,
   useToast,
   Stack,
-  Heading,
 } from "@chakra-ui/react";
 
 import contractAbi from "../utils/contract-abi";
@@ -27,12 +26,6 @@ interface Props {
 }
 
 const Mint = ({ contractAddress }: Props) => {
-  const [web3, setWeb3] = useState<Web3Provider | null>(null);
-  const [onboard, setOnboard] = useState<API | null>(null);
-  const [connected, setConnected] = useState(false);
-  const [isPublicSaleOpen, setIsPublicSaleOpen] = useState(false);
-  const [mintCount, setMintCount] = useState(0);
-  const [address, setAddress] = useState<null | string>(null);
   const {
     blocknativeKey,
     wallets,
@@ -48,7 +41,17 @@ const Mint = ({ contractAddress }: Props) => {
     claimFn,
     presale,
     widgetDisabled,
+    defaultMintAmount,
+    isSoldOut,
+    openSeaUrl,
   } = useAppConfig();
+
+  const [web3, setWeb3] = useState<Web3Provider | null>(null);
+  const [onboard, setOnboard] = useState<API | null>(null);
+  const [connected, setConnected] = useState(false);
+  const [isPublicSaleOpen, setIsPublicSaleOpen] = useState(false);
+  const [mintCount, setMintCount] = useState(defaultMintAmount);
+  const [address, setAddress] = useState<null | string>(null);
 
   const toast = useToast();
 
@@ -146,20 +149,22 @@ const Mint = ({ contractAddress }: Props) => {
   };
 
   useEffect(() => {
-    setOnboard(
-      Onboard({
-        dappId: blocknativeKey, // [String] The API key created by step one above
-        networkId: parseInt(chainID || "4"), // [Integer] The Ethereum network ID your Dapp uses.
-        subscriptions: {
-          wallet: (wallet) => {
-            setWeb3(new Web3Provider(wallet.provider));
-          },
-          address: handleAddressChange,
+    const newOnboard = Onboard({
+      dappId: blocknativeKey, // [String] The API key created by step one above
+      networkId: parseInt(chainID || "4"), // [Integer] The Ethereum network ID your Dapp uses.
+      subscriptions: {
+        wallet: (wallet) => {
+          setWeb3(new Web3Provider(wallet.provider));
         },
-        darkMode: true,
-        walletSelect: { wallets },
-      })
-    );
+        address: handleAddressChange,
+      },
+      darkMode: true,
+      walletSelect: { wallets },
+    });
+
+    setOnboard(newOnboard);
+
+    return () => newOnboard.walletReset();
   }, [blocknativeKey, chainID, wallets]);
 
   const handleConnectClick = async () => {
@@ -311,8 +316,21 @@ const Mint = ({ contractAddress }: Props) => {
   return (
     <div>
       <Stack alignItems="center" spacing={5}>
-        {widgetDisabled ? (
-          <Button disabled={true}>Coming Soon!</Button>
+        {widgetDisabled || isSoldOut ? (
+          <Button
+            as={Link}
+            href={isSoldOut ? openSeaUrl : undefined}
+            isExternal
+            disabled={!isSoldOut}
+            textAlign="center"
+            sx={{
+              _hover: {
+                textDecoration: "none",
+              },
+            }}
+          >
+            {isSoldOut ? "Buy on OpenSea" : "Coming Soon!"}
+          </Button>
         ) : (
           <>
             {showCounter && (
@@ -350,7 +368,7 @@ const Mint = ({ contractAddress }: Props) => {
                   size="md"
                   variant="filled"
                   maxWidth="200px"
-                  max={100}
+                  max={mintLimit}
                   min={1}
                   mx="auto"
                   value={mintCount}

@@ -144,6 +144,9 @@ if (process.env.NODE_ENV === "development") {
     price: 0.05,
     showClaim: false,
     claimFn: "claim",
-    widgetDisabled: false,
+    widgetDisabled: true,
+    isSoldOut: false,
+    defaultMintAmount: 0,
+    openSeaUrl: "https://opensea.io/collection/poodledunks-v2",
   });
 }

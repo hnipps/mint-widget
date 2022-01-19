@@ -28,6 +28,9 @@ export interface AppConfig {
   showClaim: boolean;
   claimFn: string;
   widgetDisabled: boolean;
+  isSoldOut: boolean;
+  defaultMintAmount: number;
+  openSeaUrl: string;
 }
 
 const defaultConfig: AppConfig = {
@@ -50,6 +53,9 @@ const defaultConfig: AppConfig = {
   showClaim: false,
   claimFn: "claim",
   widgetDisabled: false,
+  isSoldOut: false,
+  defaultMintAmount: 1,
+  openSeaUrl: "",
 };
 
 export const AppConfigContext = createContext(defaultConfig);
