@@ -1,10 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { ChakraProvider } from "@chakra-ui/react";
+import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
+import { alchemyProvider } from "wagmi/providers/alchemy";
+import { publicProvider } from "wagmi/providers/public";
 
 import App from "./App";
-import AppConfigProvider, { AppConfig } from "./context/AppConfigContext";
+import AppConfigProvider, {
+  AppConfig,
+  mergeConfig,
+} from "./context/AppConfigContext";
 import extendTheme from "./theme";
+
+import "@rainbow-me/rainbowkit/dist/index.css";
 
 type Init = (params: Partial<AppConfig>) => void;
 
@@ -15,14 +24,36 @@ declare global {
 }
 
 const init: Init = ({ theme, ...params }) => {
+  const appConfig = mergeConfig(params);
+  const { chains, provider } = configureChains(
+    [chain[appConfig.chain]],
+    [alchemyProvider({ apiKey: process.env.ALCHEMY_ID }), publicProvider()]
+  );
+
+  const { connectors } = getDefaultWallets({
+    appName: "My RainbowKit App",
+    chains,
+  });
+
+  const wagmiClient = createClient({
+    autoConnect: true,
+    connectors,
+    provider,
+  });
+
   const newTheme = theme && extendTheme(theme);
+
   ReactDOM.render(
     <React.StrictMode>
-      <ChakraProvider theme={newTheme}>
-        <AppConfigProvider {...params}>
-          <App />
-        </AppConfigProvider>
-      </ChakraProvider>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider chains={chains}>
+          <ChakraProvider theme={newTheme}>
+            <AppConfigProvider {...appConfig}>
+              <App />
+            </AppConfigProvider>
+          </ChakraProvider>
+        </RainbowKitProvider>
+      </WagmiConfig>
     </React.StrictMode>,
     document.getElementById("mint-controls")
   );
@@ -31,22 +62,6 @@ const init: Init = ({ theme, ...params }) => {
 window.mintWidgetInit = init;
 
 if (process.env.NODE_ENV === "development") {
-  // background: #00e5ff;
-  // box-shadow: 1px 1px 8px 0 #00e5ff;
-  // border: none;
-  // font-family: 'Varela Round', sans-serif;
-  // border-radius: 9999px;
-  // font-size: 24px;
-  // padding: 16px 36px;
-  // text-shadow: 1px 1px 10px rgb(0 23 118 / 20%);
-  // width: auto;
-  // display: inline-block;
-  // height: auto;
-  // color: #000725;
-  // font-weight: 400;
-  // transition: background-color 200ms ease;
-  // line-height: 36px;
-
   const theme = {
     components: {
       Text: {
@@ -57,13 +72,13 @@ if (process.env.NODE_ENV === "development") {
       Button: {
         baseStyle: {
           boxShadow: "1px 1px 8px 0 #00e5ff",
-          fontFamily: "'Varela Round', sans-serif",
+          fontFamily: "'Playfair Display', sans-serif",
           border: "none",
           borderRadius: "9999px",
           width: "auto",
           display: "inline-block",
           h: "auto",
-          color: "#000725",
+          color: "#fff",
           fontWeight: "400",
           transition: "background-color 200ms ease",
           lineHeight: "36px",
@@ -77,22 +92,35 @@ if (process.env.NODE_ENV === "development") {
               color: "black",
             },
           },
-          // 4. We can override existing variants
+          ghost: {
+            height: "auto",
+            border: "none",
+            color: "#000B25",
+            outline: "none",
+            boxShadow: "none",
+            _hover: {
+              textDecoration: "underline"
+            },
+          },
           solid: {
             padding: "16px 36px",
             fontSize: "24px",
-            bg: "#00e5ff",
+            bg: "#1200B8",
             h: "auto",
             textShadow: "1px 1px 10px rgb(0 23 118 / 20%)",
             minW: "300px",
             _hover: {
-              bg: "#60efff",
+              bg: "#230AFF",
             },
             _active: {
-              bg: "#60efff",
+              bg: "#230AFF",
             },
             _disabled: {
-              color: "black",
+              _hover: {
+                bg: "#85A9FF",
+              },
+              bg: "#85A9FF",
+              color: "#000B25",
             },
           },
         },
@@ -100,51 +128,26 @@ if (process.env.NODE_ENV === "development") {
     },
   };
 
-  // const theme = {
-  //   components: {
-  //     Button: {
-  //       baseStyle: {
-  //         fontFamily: "sans-serif",
-  //       },
-  //       variants: {
-  //         outline: {
-  //           borderColor: "white",
-  //           color: "white",
-  //           _hover: {
-  //             color: "black",
-  //           },
-  //         },
-  //         // 4. We can override existing variants
-  //         solid: {
-  //           _disabled: {
-  //             color: "black",
-  //           },
-  //         },
-  //       },
-  //     },
-  //   },
-  // };
-
   window.mintWidgetInit({
     blocknativeKey: process.env.REACT_APP_BNC_KEY || "",
-    rpcURL: process.env.REACT_APP_RPC_URL || "",
-    chainID: process.env.REACT_APP_CHAIN_ID || "",
+    rpcID: process.env.REACT_APP_RPC_ID || "",
+    chain: process.env.REACT_APP_CHAIN as keyof typeof chain,
     contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS || "",
     wallets: [],
     showCounter: false,
     showWalletAddress: true,
-    showQuantitySelector: true,
+    showQuantitySelector: false,
     theme,
     presale: true,
     projectId: "d94c7662-6ba0-4aae-adf0-77b926981c51",
-    mintFn: "mint",
-    appName: "Mutant Cats",
-    appUrl: "www.mutantcats-example.com",
-    contactEmail: "mutant@example.com",
-    price: 0.05,
+    mintFn: "claim",
+    appName: "Current Thing",
+    appUrl: "",
+    contactEmail: "",
+    price: 0.0420,
     showClaim: false,
-    claimFn: "claim",
-    widgetDisabled: true,
+    claimFn: "claimClaimlist",
+    widgetDisabled: false,
     isSoldOut: false,
     defaultMintAmount: 0,
     openSeaUrl: "https://opensea.io/collection/poodledunks-v2",

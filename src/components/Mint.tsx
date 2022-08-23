@@ -1,8 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { ethers } from "ethers";
-import Onboard from "bnc-onboard";
-import { Web3Provider } from "@ethersproject/providers";
-import type { API } from "bnc-onboard/dist/src/interfaces";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import {
   Link,
@@ -17,7 +14,12 @@ import {
 import contractAbi from "../utils/contract-abi";
 import MintCounter from "./MintCounter";
 import { useAppConfig } from "../context/AppConfigContext";
-import { checkClaim, getSignature } from "../utils/api";
+import { checkClaim } from "../utils/api";
+import ConnectButton from "./ConnectButton";
+import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
+import MintButton from "./MintButton";
+import ClaimButton from "./ClaimButton";
+import { WAGMIError } from "../types";
 
 const multFactor = 100000;
 
@@ -27,31 +29,22 @@ interface Props {
 
 const Mint = ({ contractAddress }: Props) => {
   const {
-    blocknativeKey,
-    wallets,
-    chainID,
     showCounter,
-    showWalletAddress,
     showQuantitySelector,
     mintLimit,
     projectId,
-    mintFn,
     price,
     showClaim,
-    claimFn,
-    presale,
     widgetDisabled,
     defaultMintAmount,
     isSoldOut,
     openSeaUrl,
   } = useAppConfig();
 
-  const [web3, setWeb3] = useState<Web3Provider | null>(null);
-  const [onboard, setOnboard] = useState<API | null>(null);
-  const [connected, setConnected] = useState(false);
-  const [isPublicSaleOpen, setIsPublicSaleOpen] = useState(false);
   const [mintCount, setMintCount] = useState(defaultMintAmount);
-  const [address, setAddress] = useState<null | string>(null);
+  const { address } = useAccount();
+
+  const [isPublicSaleOpen, setIsPublicSaleOpen] = useState(false);
 
   const toast = useToast();
 
@@ -69,17 +62,17 @@ const Mint = ({ contractAddress }: Props) => {
     check();
   }, [address, projectId, showClaim]);
 
-  const handleAddressChange = (newAddress: string) => {
-    setAddress(newAddress);
-  };
+  const setMintingError = (error: WAGMIError) => {
+    console.log(error);
+    console.log(error.code);
+    console.log(error.data);
+    console.log(error.internal);
+    console.log(error.name);
 
-  const setMintingError = (error: any) => {
     const description =
-      error?.error?.code === -32000
+      error.code === -32000
         ? "You don't have enough funds in your wallet to complete this transaction"
-        : error?.error?.message ||
-          error?.reason ||
-          error?.message ||
+        : error.internal.message ||
           "Something went wrong... Please refresh your page and try again.";
 
     toast({
@@ -92,7 +85,7 @@ const Mint = ({ contractAddress }: Props) => {
     });
   };
 
-  const setMintingStart = (txHash: string) => {
+  const setMintingStart = (txHash?: string) => {
     toast({
       position: "top-right",
       title: "Minting in progress",
@@ -114,13 +107,13 @@ const Mint = ({ contractAddress }: Props) => {
     });
   };
 
-  const setMintingSuccess = (txHash: string) => {
+  const setMintingSuccess = (hash?: string) => {
     toast({
       position: "top-right",
       title: "Minting Successful!",
-      description: (
+      description: hash && (
         <Link
-          href={`https://etherscan.io/tx/${txHash}`}
+          href={`https://etherscan.io/tx/${hash}`}
           isExternal
           sx={{ color: "white" }}
         >
@@ -133,12 +126,12 @@ const Mint = ({ contractAddress }: Props) => {
     });
   };
 
-  const setMintingFailed = (txHash: string) => {
+  const setMintingFailed = (hash?: string) => {
     toast({
       position: "top-right",
       title: "Minting Failed!",
-      description: (
-        <Link href={`://etherscan.io/tx/${txHash}`} isExternal>
+      description: hash && (
+        <Link href={`https://etherscan.io/tx/${hash}`} isExternal>
           View your transaction here <Icon as={FaExternalLinkAlt} />
         </Link>
       ),
@@ -148,171 +141,6 @@ const Mint = ({ contractAddress }: Props) => {
     });
   };
 
-  useEffect(() => {
-    const newOnboard = Onboard({
-      dappId: blocknativeKey, // [String] The API key created by step one above
-      networkId: parseInt(chainID || "4"), // [Integer] The Ethereum network ID your Dapp uses.
-      subscriptions: {
-        wallet: (wallet) => {
-          setWeb3(new Web3Provider(wallet.provider));
-        },
-        address: handleAddressChange,
-      },
-      darkMode: true,
-      walletSelect: { wallets },
-    });
-
-    setOnboard(newOnboard);
-
-    return () => newOnboard.walletReset();
-  }, [blocknativeKey, chainID, wallets]);
-
-  const handleConnectClick = async () => {
-    if (onboard) {
-      const newConnected = await onboard.walletSelect();
-      if (newConnected) {
-        const check = await onboard.walletCheck();
-        setConnected(check);
-        if (check) {
-          toast({
-            position: "top-right",
-            title: "Wallet connected!",
-            description: `You successfully connected your wallet: ${truncateAddress(
-              onboard.getState().address
-            )}`,
-            status: "success",
-            duration: 9000,
-            isClosable: true,
-          });
-          return;
-        }
-
-        toast({
-          position: "top-right",
-          title: "Wallet connection failed!",
-          description:
-            "Something went wrong while trying to connect your wallet. Please try again.",
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-      }
-    }
-  };
-
-  const handleMintClick = async () => {
-    if (web3 && onboard && address) {
-      if (presale) {
-        const { signature, error } = await getSignature(
-          address,
-          mintCount,
-          projectId
-        );
-        console.log({ signature, error, mintCount, projectId, address });
-
-        if (error) {
-          setMintingError(error);
-          return;
-        }
-
-        mint([mintCount, signature]);
-        return;
-      }
-
-      mint([mintCount, "0xab6c"]);
-    }
-  };
-
-  const mint = async (params: any[]) => {
-    if (web3 && onboard && address) {
-      const registry = ethers.ContractFactory.fromSolidity(contractAbi)
-        .attach(contractAddress)
-        .connect(web3);
-
-      const data = await registry.interface.encodeFunctionData(mintFn, params);
-
-      const transaction = {
-        to: contractAddress,
-        from: address,
-        value: ethers.constants.WeiPerEther.mul(
-          price * multFactor * mintCount
-        ).div(multFactor),
-        data,
-      };
-
-      const tx = await web3
-        .getSigner()
-        .sendTransaction(transaction)
-        .catch((err) => setMintingError(err));
-
-      if (!tx) return;
-
-      const txHash = tx.hash;
-
-      tx.wait()
-        .then(async () => {
-          setMintingSuccess(txHash);
-        })
-        .catch(() => {
-          setMintingFailed(txHash);
-        });
-
-      setMintingStart(txHash);
-    }
-  };
-
-  const handleClaimClick = async () => {
-    if (web3 && onboard && address) {
-      const { signature, error } = await getSignature(
-        address,
-        mintCount,
-        projectId
-      );
-      if (error) {
-        setMintingError(error);
-        return;
-      }
-
-      const registry = ethers.ContractFactory.fromSolidity(contractAbi)
-        .attach(contractAddress)
-        .connect(web3);
-
-      const data = await registry.interface.encodeFunctionData(claimFn, [
-        mintCount,
-        signature,
-      ]);
-
-      const transaction = {
-        to: contractAddress,
-        from: address,
-        value: 0,
-        data,
-      };
-
-      const tx = await web3
-        .getSigner()
-        .sendTransaction(transaction)
-        .catch((err) => setMintingError(err));
-
-      if (!tx) return;
-
-      const txHash = tx.hash;
-
-      tx.wait()
-        .then(async () => {
-          setMintingSuccess(txHash);
-        })
-        .catch(() => {
-          setMintingFailed(txHash);
-        });
-
-      setMintingStart(txHash);
-    }
-  };
-
-  const truncateAddress = (addressToChange: string) =>
-    `${addressToChange?.slice(0, 6)}...${addressToChange?.slice(-6)}`;
-
   return (
     <div>
       <Stack alignItems="center" spacing={5}>
@@ -320,7 +148,6 @@ const Mint = ({ contractAddress }: Props) => {
           <Button
             as={Link}
             href={isSoldOut ? openSeaUrl : undefined}
-            isExternal
             disabled={!isSoldOut}
             textAlign="center"
             sx={{
@@ -344,18 +171,14 @@ const Mint = ({ contractAddress }: Props) => {
               </Text>
             )}
             <div>
-              {connected ? (
-                <Button
-                  disabled={(showCounter && !isPublicSaleOpen) || mintCount < 1}
-                  onClick={showClaim ? handleClaimClick : handleMintClick}
-                >
-                  {showClaim ? "Claim" : "Mint"}
-                </Button>
-              ) : (
-                <Button variant="solid" onClick={handleConnectClick}>
-                  Connect Wallet
-                </Button>
-              )}
+              <ConnectButton
+                setMintingError={setMintingError}
+                setMintingFailed={setMintingFailed}
+                setMintingSuccess={setMintingSuccess}
+                setMintingStart={setMintingStart}
+                mintCount={mintCount}
+                contractAddress={contractAddress}
+              />
             </div>
             {!showClaim && showQuantitySelector && (
               <>
@@ -383,14 +206,6 @@ const Mint = ({ contractAddress }: Props) => {
                   sx={{ _focus: { background: "white" } }}
                 />
               </>
-            )}
-            {showWalletAddress && (
-              <Text textAlign="center">
-                <strong>Account:</strong>{" "}
-                {connected
-                  ? truncateAddress(address || "")
-                  : "Connect your wallet"}
-              </Text>
             )}
           </>
         )}

@@ -17,9 +17,9 @@ const MintCounter: FC<Props> = ({ onPresaleOpen, onPublicSaleOpen }) => {
   const [totalSupply, setTotalSupply] = useState<number>(10000);
   const [isPublicSaleOpen, setIsPublicSaleOpen] = useState(false);
   const [saleStartTime, setSaleStartTime] = useState<number | null>(null);
-  const { rpcURL, contractAddress } = useAppConfig();
+  const { rpcID, contractAddress } = useAppConfig();
 
-  const provider = new ethers.providers.JsonRpcProvider(rpcURL);
+  const provider = new ethers.providers.AlchemyProvider(rpcID);
 
   const registry = ethers.ContractFactory.fromSolidity(contractAbi)
     .attach(contractAddress || "")
