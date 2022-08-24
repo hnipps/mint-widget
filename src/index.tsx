@@ -6,6 +6,7 @@ import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 
+import allowlist from "./data/cult_of_dog_allowlist.json";
 import App from "./App";
 import AppConfigProvider, {
   AppConfig,
@@ -99,7 +100,7 @@ if (process.env.NODE_ENV === "development") {
             outline: "none",
             boxShadow: "none",
             _hover: {
-              textDecoration: "underline"
+              textDecoration: "underline",
             },
           },
           solid: {
@@ -109,9 +110,6 @@ if (process.env.NODE_ENV === "development") {
             h: "auto",
             textShadow: "1px 1px 10px rgb(0 23 118 / 20%)",
             minW: "300px",
-            _hover: {
-              bg: "#230AFF",
-            },
             _active: {
               bg: "#230AFF",
             },
@@ -121,6 +119,12 @@ if (process.env.NODE_ENV === "development") {
               },
               bg: "#85A9FF",
               color: "#000B25",
+            },
+            _hover: {
+              bg: "#230AFF",
+              _disabled: {
+                bg: "#85A9FF",
+              },
             },
           },
         },
@@ -144,12 +148,13 @@ if (process.env.NODE_ENV === "development") {
     appName: "Current Thing",
     appUrl: "",
     contactEmail: "",
-    price: 0.0420,
+    price: 0.042,
     showClaim: false,
     claimFn: "claimClaimlist",
     widgetDisabled: false,
     isSoldOut: false,
-    defaultMintAmount: 0,
-    openSeaUrl: "https://opensea.io/collection/poodledunks-v2",
+    defaultMintAmount: 1,
+    openSeaUrl: "https://opensea.io/collection/current-thing",
+    allowlist,
   });
 }

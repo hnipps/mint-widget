@@ -4,6 +4,7 @@ import {
 } from "bnc-onboard/dist/src/interfaces";
 import { createContext, FC, useContext } from "react";
 import { chain } from "wagmi";
+import { ClaimlistAddress } from "../utils/merkle-tree";
 
 export type Dict<T = any> = Record<string, T>;
 
@@ -31,6 +32,7 @@ export interface AppConfig {
   isSoldOut: boolean;
   defaultMintAmount: number;
   openSeaUrl: string;
+  allowlist: ClaimlistAddress[];
 }
 
 const defaultConfig: AppConfig = {
@@ -56,6 +58,7 @@ const defaultConfig: AppConfig = {
   isSoldOut: false,
   defaultMintAmount: 1,
   openSeaUrl: "",
+  allowlist: [],
 };
 
 export const AppConfigContext = createContext(defaultConfig);

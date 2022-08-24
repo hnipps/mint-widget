@@ -1,5 +1,4 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { ethers } from "ethers";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import {
   Link,
@@ -11,17 +10,12 @@ import {
   Stack,
 } from "@chakra-ui/react";
 
-import contractAbi from "../utils/contract-abi";
 import MintCounter from "./MintCounter";
 import { useAppConfig } from "../context/AppConfigContext";
 import { checkClaim } from "../utils/api";
 import ConnectButton from "./ConnectButton";
-import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
-import MintButton from "./MintButton";
-import ClaimButton from "./ClaimButton";
+import { useAccount } from "wagmi";
 import { WAGMIError } from "../types";
-
-const multFactor = 100000;
 
 interface Props {
   contractAddress: string;
@@ -63,12 +57,6 @@ const Mint = ({ contractAddress }: Props) => {
   }, [address, projectId, showClaim]);
 
   const setMintingError = (error: WAGMIError) => {
-    console.log(error);
-    console.log(error.code);
-    console.log(error.data);
-    console.log(error.internal);
-    console.log(error.name);
-
     const description =
       error.code === -32000
         ? "You don't have enough funds in your wallet to complete this transaction"

@@ -1,0 +1,530 @@
+[
+  {
+    "address": "0xf2270f39A96Af4040f697769f24969C83F182DBC",
+    "maximumClaimAmount": "28"
+  },
+  {
+    "address": "0x2dB60257E3c7ceFD0ff66EBbEDeFd7cD6c65f037",
+    "maximumClaimAmount": "18"
+  },
+  {
+    "address": "0x6aecF870058EEc3Fa9A4De4E0b799fD1a062adc2",
+    "maximumClaimAmount": "6"
+  },
+  {
+    "address": "0x5993Bad196C8786BaAEdB5A5868f338fE6ce4Cc2",
+    "maximumClaimAmount": "5"
+  },
+  {
+    "address": "0x26bdDe6506bd32bD7B5Cc5C73cd252807fF18568",
+    "maximumClaimAmount": "3"
+  },
+  {
+    "address": "0x67A7e4215D82Ddb4DE17494CFa9AF6A95BA6aBE3",
+    "maximumClaimAmount": "3"
+  },
+  {
+    "address": "0xB1DEa85e99B1daEA633f8196894E2446254B1D58",
+    "maximumClaimAmount": "3"
+  },
+  {
+    "address": "0x865c529F7053ADc50aC9d3efc54D71DB7b28907C",
+    "maximumClaimAmount": "2"
+  },
+  {
+    "address": "0xD28a4c5B3685e5948d8A57f124669eafB69F05Bb",
+    "maximumClaimAmount": "2"
+  },
+  {
+    "address": "0xd77749Dc29CDa028bbcdbAEe9fb04990FA387Fa3",
+    "maximumClaimAmount": "2"
+  },
+  {
+    "address": "0x12047c07E08E797FbCB6811529eEb8217bC006bF",
+    "maximumClaimAmount": "2"
+  },
+  {
+    "address": "0x8B1EA47e37A70E7FeEFc6A6945a4A7272a7934db",
+    "maximumClaimAmount": "2"
+  },
+  {
+    "address": "0x0AF8C8f1045Be77272A09D2513a56a3d4002de6e",
+    "maximumClaimAmount": "2"
+  },
+  {
+    "address": "0xdec08cb92a506B88411da9Ba290f3694BE223c26",
+    "maximumClaimAmount": "2"
+  },
+  {
+    "address": "0xcD815B9302bC6a828294CE6aa7C353B206997A4e",
+    "maximumClaimAmount": "2"
+  },
+  {
+    "address": "0x4f714880A5847D335606bb37848CcAcbcD6d5836",
+    "maximumClaimAmount": "2"
+  },
+  {
+    "address": "0xD1344833F3cCB6359583657BE3D8959a18AB83b2",
+    "maximumClaimAmount": "2"
+  },
+  {
+    "address": "0x20696178f132B53BD27363D1747Fc93A0c07dC4a",
+    "maximumClaimAmount": "2"
+  },
+  {
+    "address": "0x11f111549Be9f9Df37dCbD822903a8bD05a1EF6B",
+    "maximumClaimAmount": "2"
+  },
+  {
+    "address": "0x47115466E589aDD0E1409ad75e10F965719f69c5",
+    "maximumClaimAmount": "2"
+  },
+  {
+    "address": "0x2271fe6D76ab94352eF826d97445048Bd8C4d45F",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xbd6c1f8d5692D49325fDf12dAA00DAC59224De08",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xD02bf9b3DA78BEc791014EB3cEecA65990cb046F",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x5D2EDAF93075aFB599533b24ADb9D6a59781f58E",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xcAAFEE2535F44D5F6B8E00CAbB966dF6BeEC7A3f",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xC4798B79d22630CEE83B4eCb0Fd98cd5fF0fbb62",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x3a111A913052Fc0C674406CD53947F4217FA778b",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x5B93FF82faaF241c15997ea3975419DDDd8362c5",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x8F30FffE3bc94630008247FD7AAd0d63786e36a1",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xf35880094DC18Df096891E4ccb51212d00311B86",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xcf88FA6eE6D111b04bE9b06ef6fAD6bD6691B88c",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x55A0730A844727BD694FD8f938a456158bE0F8A6",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xC7ACc9338Aa47f9Bd9Bf9eB08bC6E29188C149dF",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x135C21b2DA426760718E39DA954974c4572AE9f6",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x8a33E42CEb277C4DA1dD9098f0EC7BDa83B1f04F",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xE6683e6aAE795a8B71015d955CE0248d684dC2e3",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x18EE15f0C12B3035C84a9A1027dB1e1151308ac5",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x856E45cce77685627DAD82F0d1D63C8642152eC8",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xbfDd960844765b1BAC0BF1F01A84Fb1F5aAFe9bC",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xa251520154ca342f0B1D702Bf5a56F78c982405B",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x2649Bd829e37463B27135D6B11ba75fe0fb24108",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xe546b43E7fF912FEf7ED75D69c1d1319595F6080",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x8135d8CCd2AcBE575Ebf1827349185df7185Cf97",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x1c66592D64DdCE7F5E3BFEeE4F8266c927cCF0c5",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x1aba5D1C1326FD704090Bb01b1C12f70ab3a0252",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x2Da5A1E7613aA575AEdaC912cc56dCc1F68609cc",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x4D6aBF03ec70D6237eb4B56FbA313edF01900Be8",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x23b755015d594b32B9fd3107343a52a4A10b0e36",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x1A4b0923B0F150b5Fa8CdFb2138D0D78b1EC85fC",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x47559Ae0A0C0c344F09CcdD52f93a3987409f3bB",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xB4c576a75945F5a8411161705e07a5D7be89f92D",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x077b89835d729283bDCcE39840dF5B063bC1159f",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x7d7B80Fa01D3164bfB72a4c594937b61AdB33643",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xEac7fC039b337753bda03112e6DC5c2429475F84",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x5ad9aF22B0B2603d7F9D8B8fcC4D262Aa6F5de87",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xAFD6537dB3aC19b37ec6c6C744bB6b91Eb476953",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xb66924A7A23e22A87ac555c950019385A3438951",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xb7c3B6c72b2a7D014Ca1311f93Aa3bc6b34f93f9",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xdd4C4fb0715A0eDD4E946F34aA83cAA94cd01c92",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x51869683791F9950B19145fDC0be0feDF743dd78",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x6e1829775C82D415Fc66d3fE0e5625e2F6C3dF88",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x683231E17F6DB6B4208206164C08e19826bc068A",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x5877Af7FC64E26c695806E2Fd7e083c8511e61f1",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x7A7f59056dC2d5116e07E0FBaf6A71BD77b326aF",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x2fF1bdC41B5c602e90951908ffeD997f3b5D97a6",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x34b93462e65303F3857460971584fD0D908f2f45",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xb251cFB4b6054755809CA88A31dCEaDe1C517424",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x9044aB3AACBB8609eF3Af11924b2c7378aDD772e",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x47012DdC8747115A9143B0AD16cB79B435AafA18",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x48B6f71388fb884ca392b3B5DA542B13097961Df",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x0E8CA4cdB2Aa03864f1389A70e79e12CaCe51F7c",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xbA00D84Ddbc8cAe67C5800a52496E47A8CaFcd27",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x3A31F80B342Dc51cAA6561ad6b7fDf90eeBf3063",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xD0ebf765A5A02CA21016f4A025C815BEc30BB00f",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xfE277Aa25A4F65A182c0ec135854794Eb7131e79",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xE25d0B528c26f8b4580F3acC8DCce16fa82e2ddA",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x1A8912a243C2b70204f607F6CC20B94543664C30",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xe9595317Dc5fE9FEa60BAD0cDb3240A82Ae8662D",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x1407C9d09d1603A9A5b806A0C00f4D3734df15E0",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x01503DC708ce3C55017194847A07aCb679D49f47",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x0377F4e01336A432dc0E49b4D32D9134eA57DDFD",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x197794928B72B5c6C8B3129342C2cf8eb8B6C92C",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xdD9962aA2Afdc842B3a09A344886E2309158c636",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xE7380b7BE1ed475dE78b07033A8ef4DfB10205a5",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xc744Cf8f58DB2D7dEC3e9251008dE7f449E87b8c",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xb951DA3870f7b7d1e3f9249c18e93D5CC5c3565c",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x4D8cd0D84E677cD2E13C29C75D7673FeD94a14Bf",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x7Bd7dAd2D1f75AE105eF20c7177c4345b69aE971",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xa2A359Dc7DaF72681A26D3d2A376dd3566D21EE5",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x73f2e04F047931E85b62E4f2652B156199000E14",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x8aB0fE3d61E372A0cAa2b2AcF6D1ffDeFD1c645A",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xF58a89D451B925814aD9a93270440CB915Ba92Ad",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x58024B6C1005dE40eAC2D4c06bC947ebf2a302Af",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x1aA9316b0F9f22e221919d1FE67FF6E39D3B2a0C",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x31b4C292b4639a32A0aCA72B0451499B464c58cb",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x2A2CD7400F922085b62cA9Bd9AC0f16151f716Ab",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x9c339b004A0c817d85125d7DDCcE0019aDCBD89f",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x0fe081B799c5F95D82c64406dA6B6FeD6Fb07848",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xEf0D8F546880d1D41e7F35c5BA06a43C7F42FF2f",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x89d42f152A826E28c69413Ec5C98E6bCCB7c7ABF",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x3B4C30bcf5B90626fc2D589c25280679217312ff",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x79A9c3aEE79793c2873E6686C22EBf2311778C19",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x8a286B1BbFDdf7296c497e99d5900005a09831d2",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x7C0DeA5be0A9C48949f59B09Cf4Fa87BC0d6c291",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x8c49C1D07579d778CAe5a567E77E5eE242169917",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x295dE0667326F97FD359941E14a27912E2Cbabda",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x55dd9b279dd99a95D763f9f5558aBd5c9E9096c2",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x5B3900D5fCEC6067B97259F1C4FD430b39952db8",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x6F23Ccc372C8859aF54D81491fD112C8219F9E42",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x9339acFa818DA6a0b2a196eF31D67acde156ACB0",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x10031a8001D7ac0bf507CAd46fF5E835C339d89a",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x83675ccB2c407CB186f32057DA583497f3Cbc3C5",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x6e0C699013aaa4281E3bF5965F33a0b31044B1c9",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xF01BCb0090CD0f734688CE77ae067dA58E9D8005",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xF3e20c2A7a5aE14C84Cd7798193d9BD7E1Cd8821",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x2d6A8fc4f128C70A197A3f92e2fE65fC9b52909E",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xE920Ba2D30e812fCb02004B0253ebe168c623C66",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xE7e9fAdbc0A35A4019297d879c56506835716166",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x2f9c38bD6E2F382C031bfda65aeA2b76BEcD6808",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x93f5af632Ce523286e033f0510E9b3C9710F4489",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x4D17c6eF27356254B929Adc124184bB34E5c5A1C",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x64E09A1b9035D78dd3EA3215089FeB390c4B71e6",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x2ff0ad27418A9D211Cad22e0c11a1255abb5b3aa",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x1056D5884F54c534BEA0BD840780d1cBD15EC368",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xC96c2c91Ff7F94bC436854C81f18210A02E8053E",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x548efCE69bb82a16f3911a86a65384327c99c3Ab",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x2D31C84E012BDb1cb43304FdFDc78f59CA064B85",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x7886802747d02ce929C631B25eEd6D5d04F41E75",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xD02bf9b3DA78BEc791014EB3cEecA65990cb046F",
+    "maximumClaimAmount": "2"
+  },
+  {
+    "address": "0x392b52ebbda3a0805af4b181d026C033B2760E70",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0xF5F96cfD6750c07432C085bbC77EC2D3e4c69D6e",
+    "maximumClaimAmount": "1"
+  },
+  {
+    "address": "0x41B69076873C5e02C81f750504dc0d22e138c25d",
+    "maximumClaimAmount": "1"
+  }
+]

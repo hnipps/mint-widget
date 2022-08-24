@@ -1,6 +1,6 @@
 import React from "react";
-import { ConnectButton as RainbowConnectButton, } from "@rainbow-me/rainbowkit";
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
+import { Box, Button, Flex, Grid } from "@chakra-ui/react";
 import MintButton from "./MintButton";
 import ClaimButton from "./ClaimButton";
 import { WAGMIError } from "../types";
@@ -65,7 +65,7 @@ const ConnectButton = ({
 
               return (
                 <Flex flexDir="column" alignItems="center" gridGap={3}>
-                  <Flex gridGap={3}>
+                  <Grid templateColumns="1fr 1fr" gridGap={3}>
                     <MintButton
                       onFail={setMintingFailed}
                       onError={setMintingError}
@@ -76,11 +76,13 @@ const ConnectButton = ({
                     />
                     <ClaimButton
                       onFail={setMintingFailed}
+                      onError={setMintingError}
                       onSuccess={setMintingSuccess}
+                      onSend={setMintingStart}
                       mintCount={mintCount}
                       contractAddress={contractAddress}
                     />
-                  </Flex>
+                  </Grid>
                   <Button
                     variant="ghost"
                     onClick={openAccountModal}
