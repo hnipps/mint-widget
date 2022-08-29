@@ -42,8 +42,6 @@ const ConnectButton = ({
                 userSelect: "none",
               },
             })}
-            mt={-20}
-            mb={10}
             h={32}
           >
             {(() => {

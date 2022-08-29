@@ -34,6 +34,7 @@ const MintButton = ({
   const { price, mintFn } = useAppConfig();
 
   const { address, isConnected } = useAccount();
+
   const { config } = usePrepareContractWrite({
     addressOrName: contractAddress,
     functionName: mintFn,
@@ -45,6 +46,7 @@ const MintButton = ({
       ).div(multFactor),
     },
   });
+
   const { data, write } = useContractWrite({
     ...config,
     onError: (tx) => {
@@ -54,11 +56,8 @@ const MintButton = ({
       onSend(tx.hash);
     },
   });
-  const {
-    data: waitData,
-    isError,
-    isLoading,
-  } = useWaitForTransaction({
+
+  useWaitForTransaction({
     hash: data?.hash,
     onSuccess: (tx) => {
       onSuccess(tx.transactionHash);

@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import React, { useMemo, useState } from "react";
+import { Button, Text } from "@chakra-ui/react";
 import {
   useAccount,
   usePrepareContractWrite,
@@ -55,11 +55,16 @@ const ClaimButton = ({
     addressOrName: contractAddress,
     functionName: claimFn,
     contractInterface: contractAbi,
-    args: [proof, allowlistEntry?.maximumClaimAmount, mintCount],
+    args: [
+      proof,
+      allowlistEntry?.maximumClaimAmount,
+      allowlistEntry?.maximumClaimAmount,
+    ],
     onSuccess: () => {
       setDisabled(false);
     },
   });
+
   const { data, write } = useContractWrite({
     ...config,
     onError: (tx) => {
