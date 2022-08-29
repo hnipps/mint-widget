@@ -62,7 +62,7 @@ const ConnectButton = ({
               }
 
               return (
-                <Flex flexDir="column" alignItems="center" gridGap={3}>
+                <Flex flexDir="column" alignItems="flex-end" gridGap={3}>
                   <Grid templateColumns="1fr 1fr" gridGap={3}>
                     <MintButton
                       onFail={setMintingFailed}
